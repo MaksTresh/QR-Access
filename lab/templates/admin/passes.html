@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+{% block nav %}
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" href="/admin/doctors">Лаборанты системы</a>
+        <a class="nav-item nav-link active" href="/admin/passes">Выданные QR-коды</a>
+    </div>
+{% endblock %}
+{% block content %}
+    <table class="table mt-5">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">ID Анализа</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Дата рождения</th>
+            <th scope="col">Паспортные данные</th>
+            <th scope="col">SID</th>
+            <th scope="col">Выдан</th>
+            <th scope="col">Доступен в регионе</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+            <tr>
+                <th scope="row">{{ row['analysis_id'] }}</th>
+                <td>{{ row['last_name'] }}</td>
+                <td>{{ row['first_name'] }}</td>
+                <td>{{ row['patronymic'] }}</td>
+                <td>{{ row['birthday'] }}</td>
+                <td>{{ row['passport'] }}</td>
+                <td>{{ row['sid'] }}</td>
+                <td>{{ row['doctor'] + ', ' + row['laboratory'] }}</td>
+                <td>{{ row['region'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

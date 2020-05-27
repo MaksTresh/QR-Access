@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+{% block nav %}
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" href="/admin/labs">Сети лабораторий</a>
+        <a class="nav-item nav-link active" href="/admin/passes">Выданные QR-коды</a>
+    </div>
+{% endblock %}
+{% block content %}
+    <table class="table mt-5">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Дата добавления QR-кода</th>
+            <th scope="col">Дата получения анализа</th>
+            <th scope="col">Дата окончания пропуска</th>
+            <th scope="col">Тест-система</th>
+            <th scope="col">Производитель</th>
+            <th scope="col">Сертификат</th>
+            <th scope="col">Регион</th>
+            <th scope="col">SID</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+            <tr>
+                <th scope="row">{{ row['id'] }}</th>
+                <td>{{ row['timestamp'] }}</td>
+                <td>{{ row['receive_analysis_date'] }}</td>
+                <td>{{ row['pass_expiration_date'] }}</td>
+                <td>{{ row['test_system_name'] }}</td>
+                <td>{{ row['manufacturer'] }}</td>
+                <td>{{ row['certificate'] }}</td>
+                <td>{{ row['available_region'] }}</td>
+                <td>{{ row['sid'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

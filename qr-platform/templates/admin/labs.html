@@ -1,0 +1,31 @@
+{% extends 'admin/base.html' %}
+{% block nav %}
+    <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="/admin/labs">Сети лабораторий</a>
+        <a class="nav-item nav-link" href="/admin/passes">Выданные QR-коды</a>
+    </div>
+{% endblock %}
+{% block content %}
+    <table class="table mt-5">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Название компании</th>
+            <th scope="col">Адрес лаборатории</th>
+            <th scope="col">Директор</th>
+            <th scope="col">Номер телефона</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+            <tr>
+                <th scope="row">{{ row['id'] }}</th>
+                <td>{{ row['company_name'] }}</td>
+                <td>{{ row['main_address'] }}</td>
+                <td>{{ row['last_name'] + ' ' + row['first_name'] + ' ' + row['patronymic'] }}</td>
+                <td>{{ row['phone_number'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

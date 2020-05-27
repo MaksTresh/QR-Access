@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor.css')}}">
+
+    <title>QR Lab</title>
+</head>
+<body class="bg-light">
+<div class="container wrapper">
+    <div class="py-5 text-center">
+        <h2>Выдача пропуска пациенту</h2>
+        <br>
+        <p class="lead"><b>{{ lab_name }}</b></p>
+        <p class="lead" style="margin-top: -10px"><b>{{ doctor['last_name'] + ' ' + doctor['first_name'] + ' ' + doctor['patronymic'] }}</b></p>
+    </div>
+    {% if status == 'success' %}
+        <div class="row position-relative">
+            <div class="alert alert-success alert-dismissible fade show position-absolute" role="alert">
+                <strong>QR-пропуск успешно сохранен!</strong>
+                <button type="button" class="close d-none" data-dismiss="alert" aria-label="Close" id="closeAlertBtn">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
+    <form class="needs-validation mb-3" action="/save_pass_data" method="POST" novalidate>
+
+        <div class="mb-3">
+            <label for="lastname">Фамилия</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" autocomplete="off" required>
+            <div class="invalid-feedback">
+                Введите фамилию.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="firstname">Имя</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" autocomplete="off" required>
+            <div class="invalid-feedback">
+                Введите имя.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="patronymic">Отчество</label>
+            <input type="text" class="form-control" id="patronymic" name="patronymic" autocomplete="off" required>
+            <div class="invalid-feedback">
+                Введите отчество.
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 mb-3 date">
+                <label for="date_birthday">Дата рождения</label>
+                <input type="text" class="form-control" id="date_birthday" name="date_birthday" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                <div class="invalid-feedback">
+                    Введите дату рождения.
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="passport_series">Серия паспорта</label>
+                <input type="text" class="form-control" id="passport_series" name="passport_series" autocomplete="off" required>
+                <div class="invalid-feedback">
+                    Введите серию паспорта.
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="passport_number">Номер паспорта</label>
+                <input type="text" class="form-control" id="passport_number" name="passport_number" autocomplete="off" required>
+                <div class="invalid-feedback">
+                    Введите номер паспорта.
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-4 mb-3 date">
+                <label for="date_analysis">Дата получения анализа</label>
+                <input type="text" class="form-control" id="date_analysis" name="date_analysis" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                <div class="invalid-feedback">
+                    Введите дату получения анализов.
+                </div>
+            </div>
+            <div class="col-md-4 mb-3 date">
+                <label for="date_end">Дата окончания пропуска</label>
+                <input type="text" class="form-control" id="date_end" name="date_end" required><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                <div class="invalid-feedback">
+                    Введите дату окончания действия пропусков.
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="available_region">Регион действия пропуска</label>
+                <select class="custom-select d-block w-100" id="available_region" required="" name="available_region">
+                    {% for region in regions %}
+                        <option value="{{ region.id }}">{{ region.region_name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Выберите регион.
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-3">
+                <label for="analysis_id">ID Анализа</label>
+                <input type="text" class="form-control" id="analysis_id" name="analysis_id" autocomplete="off" required>
+                <div class="invalid-feedback">
+                    Введите ID Анализа.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="test_system">Тест-система</label>
+                <select class="custom-select d-block w-100" name="test_system" id="test_system" required="">
+                    {% for ts in test_systems %}
+                        <option value="{{ ts.id }}">{{ ts.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Выберите название тест-системы.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="author_system">Производитель</label>
+                <select class="custom-select d-block w-100" id="author_system" name="author_system" required="" disabled>
+                    {% for ts in test_systems %}
+                        <option value="{{ ts.id }}">{{ ts.manufacturer }}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Выберите производителя.
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="certificate">Сертификат теста</label>
+                <select class="custom-select d-block w-100" id="certificate" name="certificate" required="" disabled>
+                    {% for ts in test_systems %}
+                        <option value="{{ ts.id }}">{{ ts.certificate }}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Выберите сертификат тест-системы.
+                </div>
+            </div>
+        </div>
+
+        <hr class="mb-4 mt-3">
+        <input name="sid" id="sid" type="text" class="d-none" value="">
+        <input name="salt" id="salt" type="text" class="d-none" value="">
+        <div class="qrcodeCanvas d-none">
+            <div id="qr-data"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" id="generateBtn">
+                <button class="btn btn-primary btn-lg btn-block" type="button">Сгенерировать QR-код</button>
+            </div>
+            <div class="col-md-6" id="sendDataBtn">
+                <button class="btn btn-primary btn-lg btn-block" type="submit" disabled>Отправить</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="{{ url_for('static', filename='scripts/libs/jquery-3.4.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/libs/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/libs/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/libs/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/libs/bootstrap-datepicker.ru.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/libs/jquery.qrcode.min.js') }}"></script>
+<script>
+    let platform_url = '{{ platform_url }}';
+    {% if status %}
+        setTimeout(function(){
+            $('#closeAlertBtn').click();
+        }, 2000)
+    {% endif %}
+</script>
+<script src="{{ url_for('static', filename='scripts/doctor.js') }}"></script>
+</body>
+</html>

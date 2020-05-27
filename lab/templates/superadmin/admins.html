@@ -1,0 +1,32 @@
+{% extends 'superadmin/base.html' %}
+{% block nav %}
+    <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="/superadmin/admins">Администраторы системы</a>
+        <a class="nav-item nav-link" href="/superadmin/doctors">Лаборанты системы</a>
+        <a class="nav-item nav-link" href="/superadmin/passes">Выданные QR-коды</a>
+    </div>
+{% endblock %}
+{% block content %}
+    <table class="table mt-5">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Юзернейм</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+            <tr>
+                <th scope="row">{{ row['id'] }}</th>
+                <td>{{ row['last_name'] }}</td>
+                <td>{{ row['first_name'] }}</td>
+                <td>{{ row['patronymic'] }}</td>
+                <td>{{ row['username'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

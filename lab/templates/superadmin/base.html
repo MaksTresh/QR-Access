@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_panel.css') }}">
+
+    <title>QR Lab</title>
+</head>
+<body class="bg-light">
+
+<div class="container">
+    <div class="py-4 text-center">
+        <h2>Супер-админ панель управления</h2>
+        <br>
+        <p class="lead" style="margin-top: -10px"><b>{{ superadmin['last_name'] + ' ' + superadmin['first_name'] + ' ' + superadmin['patronymic'] }}</b></p>
+    </div>
+
+    <hr>
+    <div class="nav-menu">
+        <div class="row">
+            <nav class="navbar navbar-light navbar-expand-lg col-md-12">
+                <a class="navbar-brand">QRAntigen</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    {% block nav %}{% endblock %}
+                </div>
+            </nav>
+        </div>
+    </div>
+    <hr>
+</div>
+
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+
+
+
+<script src="{{ url_for('static', filename='scripts/libs/jquery-3.4.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/libs/popper.min.js') }}"></script>
+<script src="{{  url_for('static', filename='scripts/libs/bootstrap.min.js') }}"></script>
+</body>
+</html>
